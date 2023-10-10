@@ -1,0 +1,541 @@
+﻿@model TenantCompany.Models.VM_UserRegistration
+@using Newtonsoft.Json
+@{
+    ViewData["Title"] = "UserRegistration";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<hr />
+<style>
+    #divcaptcha {
+        border:1px solid grey;
+        padding:2px;
+        background-color:wheat;
+        color:cadetblue;
+        font-family: cursive;
+        text-align: center;
+    }
+
+   
+    .readonly {
+        background-color: #f2f2f2;
+        pointer-events: none;
+    }
+
+</style>
+<!-- Button to trigger the modal -->
+
+
+<!-- The Modal -->
+<div class="modal fade" id="myModal" data-bs-backdrop="static" aria-hidden="true" aria-labelledby="feedbackLabel" tabindex="-1">
+ 
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h3 class="modal-title" id="myCenterModalLabel">Client User Registration</h3>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+               
+            </div>
+            
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <div class="">
+                    <!--Auth fluid left content -->
+                    <div class="auth-fluid-form-box">
+                        <div class="align-items-center d-flex h-100">
+                            <div class="p-3">
+
+                                @* <!-- Logo -->
+                                *@
+
+
+                                
+
+                                <!-- title-->
+                               
+                                <p class="text-muted mb-4">Don't have an account? Create your account, it takes less than a minute</p>
+
+                                <!-- form -->
+                                <form asp-action="UserRegistration" id="User_Registration">
+                                    <div class="row mb-2">
+                                        <label asp-for="CompanyGroupName" class="col-sm-5 control-label">Company Group</label>
+
+                                        <div class="col-sm-7">
+                                            <input asp-for="CompanyGroupName" class="form-control" />
+                                            <span asp-validation-for="CompanyGroupName" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <label asp-for="ClientName" class="col-sm-5 control-label">Name</label>
+
+                                        <div class="col-sm-7">
+                                            <input asp-for="ClientName" class="form-control" />
+                                            <span asp-validation-for="ClientName" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <label asp-for="ClientDOB" class="col-sm-5 control-label">DOB</label>
+                                        <div class="col-sm-7">
+
+                                            <input asp-for="ClientDOB" class="form-control" />
+                                            <span asp-validation-for="ClientDOB" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <label asp-for="ClientEmailId" class="col-sm-5 control-label">Email Id</label>
+                                        <div class="col-sm-7">
+
+                                            <input asp-for="ClientEmailId" class="form-control" />
+                                            <span asp-validation-for="ClientEmailId" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <label asp-for="ClientContactNo" class="col-sm-5 control-label">Contact No</label>
+                                        <div class="col-sm-7">
+
+                                            <input asp-for="ClientContactNo" class="form-control" />
+                                            <span asp-validation-for="ClientContactNo" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <label asp-for="ClientUniqueCodeTypeId" class="col-sm-5 control-label">Unique Code</label>
+                                        <div class="col-sm-7">
+                                            <select asp-for="ClientUniqueCodeTypeId" class="form-select" asp-items="@ViewBag.PDataTypeList" onchange="executeScript(this.value)">
+                                                <option value="">Select an option</option>
+                                            </select>
+                                            <span asp-validation-for="ClientUniqueCodeTypeId" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <label asp-for="ClientUniqueCode" class="col-sm-5 control-label">Code No</label>
+                                        <div class="col-sm-7">
+
+                                            <input asp-for="ClientUniqueCode" class="form-control" />
+                                            @*<span asp-validation-for="ClientUniqueCode" class="text-danger"></span>*@
+                                            <span id="ClientUniqueCode-error" class="field-validation-valid text-danger" data-valmsg-for="ClientUniqueCode" data-valmsg-replace="true"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <label asp-for="UserName" class="col-sm-5 control-label">UserName</label>
+                                        <div class="col-sm-7">
+
+                                            <input asp-for="UserName" name="UserName" class="form-control" onblur="CheckUserName();" />
+                                           @* <span asp-validation-for="UserName" class="text-danger"></span>*@
+                                            <span id="UserName-error" class="field-validation-valid text-danger" data-valmsg-for="UserName" data-valmsg-replace="true"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <label asp-for="Password" class="col-sm-5 control-label">Password</label>
+                                        <div class="col-sm-7">
+                                            <div class="input-group input-group-merge">
+                                            <input asp-for="Password" class="form-control" />
+                                            <div class="input-group-text" data-password="false">
+                                                <span class="password-eye"></span>
+                                            </div>
+                                            </div>
+                                            <span asp-validation-for="Password" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <label asp-for="TenantProductKey" class="col-sm-5 control-label">Tenant Key</label>
+                                        <div class="col-sm-7">
+
+                                            <input asp-for="TenantProductKey" name="TenantProductKey" class="form-control" onblur="CheckTenant();" />
+                                            @*<span asp-validation-for="TenantProductKey" class="text-danger"></span>*@
+                                            <span id="TenantProductKey-error" class="field-validation-valid text-danger" data-valmsg-for="TenantProductKey" data-valmsg-replace="true"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <label for="captchaInput" class="col-sm-5 control-label" >Enter CAPTCHA code:</label>
+
+                                        <div class="col-sm-6 mb-2 readonly" id="divcaptcha">
+                                                <span class="mb-1" id="captchaCodeElement"></span>
+                                            
+                                            </div>
+                                            <div class="col-sm-4" style="margin-left:42%;">
+                                            <input type="text" id="captchaInput" name="captchaInput" class="form-control border border-secondary" required pattern="[A-Za-z]{6}" title="Please enter a valid captcha code">
+                                            <span class="text-danger">
+                                                <span id="captchaInput-error" class="field-validation-valid" data-valmsg-for="captchaInput" data-valmsg-replace="true"></span>
+                                            </span>
+                                           
+                                        </div>
+                                    </div>
+                                   <div class="mb-3">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="customCheck" name="customCheck">
+                                            <label class="form-check-label" for="customCheck">I accept <a href="#">Terms and Conditions</a></label>
+                                            <span id="customCheck-error" class="field-validation-valid" data-valmsg-for="customCheck" data-valmsg-replace="true"></span>
+
+                                        </div>
+                                    </div>
+                                   @* <input type="text" id="txtPANCard" name="txtPANCard" class="form-control border border-secondary" required pattern="[A-Za-z]{6}" title="Please enter a valid captcha code">
+                                    <label id="lblPANCard" class="col-sm-5 control-label"></label>*@
+
+                                    <div class="text-center d-grid mb-3">
+                                        <button type="button" id="SaveRegistration" class="btn btn-info px-5"><i class=""></i>&nbsp; Register</button>
+                                    </div>
+
+                                </form>
+                                <!-- end form-->
+                                <!-- Footer-->
+                                <footer class="footer footer-alt">
+                                    <p class="text-muted">Already have account? <a asp-controller="UserAccount" asp-action="Login" class="text-muted ms-1"><b>Log In</b></a></p>
+                                </footer>
+
+                            </div> <!-- end .card-body -->
+                        </div> <!-- end .align-items-center.d-flex.h-100-->
+                    </div>
+                    <!-- end auth-fluid-form-box-->
+                    <!-- Auth fluid right content -->
+                    
+                    <!-- end Auth fluid right content -->
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+               @* <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save Changes</button>*@
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<div>
+    <a asp-action="Index"></a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+    
+}
+  
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.js"></script>
+    <script>
+        var labelElement = document.getElementById('divcaptcha');
+        labelElement.addEventListener('copy', function (event) {
+            event.preventDefault();
+        });
+        
+
+      
+        
+        $(document).ready(function () {
+            // Code to execute after the DOM has finished loading
+            $('#myModal').modal('show');
+
+            // Generate a random CAPTCHA code
+            $('#SaveRegistration').click(function (e) {
+
+                
+                    // Prevent the form from being submitted
+                    // Display an error message or take appropriate action
+
+             if (ValidationForm() != false) {
+                //if(ValidationUniqueCode()!=false)
+                //{
+                    
+                            if (validateCaptcha() != false) {
+                                event.preventDefault();
+                                e.preventDefault();// Prevent the form from submitting normally
+
+                                var formData = $('form').serializeArray(); // Serialize the form data
+
+
+                                var jsonData = {};
+                                $(formData).each(function (index, obj) {
+                                    jsonData[obj.name] = obj.value; // Convert the serialized data to JSON
+                                });
+
+                                // Use the 'jsonData' object as needed (e.g., send it via AJAX)
+
+                                $.post("/UserAccount/UserRegistration", jsonData, function (response) {
+                                    // Success callback function
+
+
+                                    if (response.id > 0) {
+                                        alert("Registration successful");
+                                    }
+                                    else {
+                                        alert("Failed");
+                                    }
+                                }).fail(function (error) {
+                                    // Error callback function
+                                    console.log("Request failed:", error);
+                                });
+
+
+                            }
+                            else {
+                                $('#captchaInput-error').removeClass('field-validation-valid');
+                                $('#captchaInput-error').addClass('field-validation-error');
+                                $('#captchaInput-error').text('Invalid Captcha. Please try again.');
+                                var captchaCode = generateCaptchaCode(6);
+                                $('#captchaCodeElement').text(captchaCode);
+                            }
+                        
+                        
+                   
+               
+              }
+                
+            });
+
+        function ValidationTenantKey() {
+
+            function handleResponse(id) {
+                if (id > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            CheckTenant(handleResponse);
+
+
+        }
+
+        function ValidationUserName() {
+
+            if (CheckUserName(function (id) {
+               
+                if (id > 0) {
+                    return false;
+                } else {
+                   return true;
+                }
+            })) {
+                // Handle the case when the function call is successful
+            } else {
+                // Handle the case when the function call fails
+            }
+
+        }
+        function ValidationUniqueCode() {
+           
+            var regex = /([A-Z]){5}([0-9]){4}([A-Z]){1}$/; 
+            if (regex.test($("#ClientUniqueCode").val().toUpperCase())) {
+                
+                return true;
+            } else {
+               
+                
+                return false;
+            }
+
+
+            }
+        function validateCaptcha() {
+
+            if ($("#captchaInput").val().toLowerCase() === $("#captchaCodeElement").text().toLowerCase()) {
+                
+                return true;
+            } else {
+                return false;
+            }
+
+
+        }
+            function ValidationForm() {
+                if (!$("#User_Registration").valid()) {
+                    return false;
+                }
+            }
+            var captchaCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            var captchaCode = generateCaptchaCode(6);
+
+            // Display the CAPTCHA code on the page
+            $('#captchaCodeElement').text(captchaCode);
+
+            // Function to generate a random CAPTCHA code
+            function generateCaptchaCode(length) {
+                var captchaCode = '';
+                for (var i = 0; i < length; i++) {
+                    var randomIndex = Math.floor(Math.random() * captchaCharacters.length);
+                    captchaCode += captchaCharacters.charAt(randomIndex);
+                }
+                return captchaCode;
+            }
+        });
+
+
+
+
+    function CheckUserName() {
+        var UserName = $('#UserName').val();
+        var JSONdt = { "UserName": UserName };
+        if (UserName != '') {
+            $.post("/UserAccount/UserNameValidation", JSONdt, function (response) {
+                // Success callback function
+
+
+                if (response.id == 0) {
+                   
+                   
+                    // Remove the existing class "form-control" from the element
+                    $('input[name="UserName"]').addClass('form-control');
+
+                    // Add the new class "form-control is-valid" to the element
+                    $('input[name="UserName"]').removeClass('form-control is-invalid');
+                    $('input[name="UserName"]').addClass('form-control is-valid');
+                    
+                    
+
+                    //$('span.asp-validation-for="UserName"').html('UserName Already Exists').show();
+
+                }
+                else {
+                   
+                   
+                  
+                    $('input[name="UserName"]').addClass('form-control is-invalid');
+                    
+                    $('#UserName-error').text('UserName Already Exists');
+
+
+                }
+            }).fail(function (error) {
+                // Error callback function
+                console.log("Request failed:", error);
+            });
+        }
+        else {
+            $('input[name="UserName"]').removeClass('form-control is-valid');
+            $('input[name="UserName"]').removeClass('form-control is-invalid');
+            $('input[name="UserName"]').addClass('form-control');
+            $('span[asp-validation-for="UserName"]').empty().hide();
+           
+            //$('input[name="UserName"]').addClass('form-control');
+        }
+    }
+
+    function CheckTenant() {
+        var TenantProductKey = $('#TenantProductKey').val();
+        var JSONdt = { "TenantProductKey": TenantProductKey };
+        if (TenantProductKey != '') {
+
+            $.post("/UserAccount/UserTenantValidation", JSONdt, function (response) {
+                // Success callback function
+
+
+                if (response.id == 1) {
+                   
+                    $('#SaveRegistration').show();
+                    // Remove the existing class "form-control" from the element
+                    $('input[name="TenantProductKey"]').removeClass('form-control');
+                    $('input[name="TenantProductKey"]').removeClass('form-control is-invalid');
+                    // Add the new class "form-control is-valid" to the element
+                    $('input[name="TenantProductKey"]').addClass('form-control is-valid');
+                    
+                }
+                else {
+                   
+                    $('input[name="TenantProductKey"]').addClass('form-control is-invalid');
+                    $('#TenantProductKey-error').removeClass('field-validation-valid');
+                    $('#TenantProductKey-error').addClass('field-validation-error');
+                    $('#TenantProductKey-error').text('Invalid Tenant Key');
+                    
+                }
+            }).fail(function (error) {
+                // Error callback function
+                console.log("Request failed:", error);
+            });
+        }
+        else {
+            $('input[name="TenantProductKey"]').removeClass('form-control is-valid');
+            $('input[name="TenantProductKey"]').removeClass('form-control is-invalid');
+            $('input[name="TenantProductKey"]').addClass('form-control');
+            $('span.asp-validation-for="TenantProductKey"').empty().hide();
+            
+        }
+    }
+
+    </script>
+    <script type="text/javascript">
+        
+
+        function executeScript(selectedValue) {
+            console.log(selectedValue);
+            jQuery(function ($) {
+
+            if (selectedValue==1)
+            {
+                Inputmask("A{5}9{4}A{1}").mask($("#ClientUniqueCode"));
+            }
+            if (selectedValue == 2) {
+                Inputmask("9{12}").mask($("#ClientUniqueCode"));
+            }
+            if (selectedValue==3)
+            {
+                Inputmask("A{1}9{1}9{6}").mask($("#ClientUniqueCode"));
+            }
+            
+
+        });
+            //var selectedItem = JSON.stringify(@Html.Raw(Json.Serialize(ViewBag.PDataTypeList)));
+            //console.log(selectedItem);
+            //var selectedOption = JSON.parse(selectedItem);
+            //console.log(selectedOption);
+            //var selectedObj = selectedOption.find(function (option) {
+            //    return option.value === selectedValue;
+            //});
+            //var selectedScript = selectedObj.description;
+            //console.log(selectedScript);
+            //var validationScript = selectedScript;
+            //$('#ClientUniqueCode').blur(function () {
+            //    alert($('#ClientUniqueCode').val());
+            //    $('#txtPANCard').val($('#ClientUniqueCode').val());
+            //    alert($('#txtPANCard').val());
+            //    eval('(' + selectedScript + ')();');
+                //eval("+selectedScript);
+            //});
+
+            // Use the validationScript in your own validation logic
+            // Example: Call a function passing the validationScript
+            //validateTextbox(validationScript);
+            // Access the additional properties
+            //var text = selectedScript.text;
+            //console.log(text);
+            //var description = selectedScript.description;
+            //console.log(description);
+            //// Retrieve the script content from the database
+            //var scriptContent = getScriptContentFromDatabase(description);
+            //console.log(scriptContent);
+            //// Execute the script using eval
+            //eval(scriptContent);
+        }
+
+        function validateTextbox(script) {
+            // Perform your validation logic using the script
+            // Example: You can use the script within this function
+            console.log("Performing validation with script:", script);
+            // Add your validation code here
+        }
+
+
+        //function getScriptContentFromDatabase(selectedValue) {
+        //    console.log(selectedValue);
+        //    // Replace this with your logic to retrieve the script content from the database
+        //    // based on the selected value
+        //    // For example, you can make an AJAX request to a server endpoint that returns the script content
+
+        //    // Dummy script content for demonstration purposes
+
+        //    var scriptContent = selectedValue;
+        //    console.log(scriptContent);
+        //    return scriptContent;
+        //}
+    </script>
+}

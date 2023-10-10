@@ -1,0 +1,202 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+        <meta content="Coderthemes" name="author" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="~/assets/images/favicon.ico">
+
+        <!-- plugin css -->
+        <link href="~/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />
+
+        <!-- Bootstrap css -->
+        <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <!-- App css -->
+        <link href="~/assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style"/>
+        <!-- icons -->
+        <link href="~/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <!-- Head js -->
+        <script src="~/assets/js/head.js"></script>
+    @RenderSection("dateStyle", false)
+    </head>
+
+    <body  data-layout-mode="two-column" data-theme="light" data-topbar-color="light" data-menu-position="fixed" data-leftbar-color="light" data-leftbar-size='default' data-sidebar-user='false'>
+
+        <!-- Begin page -->
+        <div id="wrapper">
+
+        <!-- Topbar Start -->
+        <div class="navbar-custom">
+            
+        </div>
+        <!-- end Topbar -->
+
+            <!-- ========== Left Sidebar Start ========== -->
+            <div class="left-side-menu">
+
+                <div class="h-100" >
+
+                    <div class="sidebar-content">
+                        <div class="sidebar-icon-menu h-100" data-simplebar>
+                            <!-- LOGO -->
+                            <a href="index.html" class="logo">
+                                <span>
+                                    <img src="~/assets/images/logo-sm-light.png" alt="" height="28">
+                                </span>
+                            </a>
+                            <nav class="nav flex-column" id="two-col-sidenav-main">
+                                <a class="nav-link" href="#dashboard" title="Dashboard">
+                                    <i data-feather="home"></i>
+                                </a>
+                                <a class="nav-link" href="#apps" title="Apps">
+                                    <i data-feather="grid"></i>
+                                </a>
+                                <a class="nav-link" href="#pages" title="Pages">
+                                    <i data-feather="file-text"></i>
+                            </nav>
+                        </div>
+                        <!--- Sidemenu -->
+                        <div class="sidebar-main-menu">
+                            <div id="two-col-menu" class="h-100" data-simplebar>
+                                <div class="twocolumn-menu-item d-block" id="dashboard">
+                                    <div class="title-box">
+                                    <h5 class="menu-title">DashBoard</h5>
+                                    <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/TenantCompanyProfile/DashBoard">DashBoard</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/TenantCompanyProfile/Index">Create Company</a>
+                                        </li>
+
+
+                                    </ul>
+                                    </div>
+                                
+                                </div>
+
+                                <div class="twocolumn-menu-item" id="apps">
+                                    <h5 class="menu-title">Apps</h5>
+                                    
+                                </div>
+
+                                <div class="twocolumn-menu-item" id="pages">
+                                    <div class="title-box">
+                                        <h5 class="menu-title">Pages</h5>
+                                        <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/StaffTypeUI/Index">Staff Type</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/DesignationUI/Index">Designation</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/DepartmentUI/Index">Department</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/JobRoleUI/Index">Job Role</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            @*<a class="nav-link" href="/SatutoryUI/Index">Statutory</a>*@
+
+                                            @*<a class="nav-link" href="/StatutoryDetailsUI/Index">Statutory Head Creation</a>*@
+
+                                            <a class="nav-link" href="/StatutoryDetailsLimitUI/Index">Statutory Head(Limit) Guide</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/GroupHeadUI/Index">Group Head</a>
+                                        </li>
+                                        
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/GroupHeadPersonnelUI/Index">Group Head Registration</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/LocationUI/Index">Location</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/GuestUserUI/Index">Guest User Registration</a>
+                                        </li>
+
+
+                                    </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <!-- End Sidebar -->
+
+                </div>
+                <!-- Sidebar -left -->
+
+            </div>
+            <!-- Left Sidebar End -->
+
+            <!-- ============================================================== -->
+            <!-- Start Page Content here -->
+            <!-- ============================================================== -->
+
+            <div class="content-page">
+                <div class="content">
+                @RenderBody()
+                </div> <!-- content -->
+
+                <!-- Footer Start -->
+                <footer class="footer">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <script>document.write(new Date().getFullYear())</script> &copy; Technocon Group 
+                            </div>
+                            <div class="col-md-6">
+                                <div class="text-md-end footer-links d-none d-sm-block">
+                                    <a href="javascript:void(0);">About Us</a>
+                                    <a href="javascript:void(0);">Help</a>
+                                    <a href="javascript:void(0);">Contact Us</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+                <!-- end Footer -->
+
+            </div>
+
+            <!-- ============================================================== -->
+            <!-- End Page content -->
+            <!-- ============================================================== -->
+
+
+        </div>
+        <!-- END wrapper -->
+
+
+
+        <!-- Right bar overlay-->
+        <div class="rightbar-overlay"></div>
+
+        <!-- Vendor js -->
+        <script src="~/assets/js/vendor.min.js"></script>
+
+        <!-- Plugins js-->
+        <script src="~/assets/libs/jquery-sparkline/jquery.sparkline.min.js"></script>
+        <script src="~/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js"></script>
+        <script src="~/assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js"></script>
+
+        <!-- Dashboard 2 init -->
+        <script src="~/assets/js/pages/dashboard-2.init.js"></script>
+
+        <!-- App js -->
+        <script src="~/assets/js/app.min.js"></script>
+    @RenderSection("dateScript", false)
+    </body>
+</html>

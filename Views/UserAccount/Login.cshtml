@@ -1,0 +1,292 @@
+﻿@model TenantCompany.Models.VM_UserLogin
+
+@{
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+<style>
+    #divcaptcha {
+        border: 1px solid grey;
+        padding: 2px;
+        background-color: wheat;
+        color: cadetblue;
+        font-family: cursive;
+        text-align: center;
+    }
+</style>
+
+
+<div class="auth-fluid">
+    <!--Auth fluid left content -->
+    <div class="auth-fluid-form-box">
+        <div class="align-items-center d-flex h-100">
+            <div class="p-3">
+
+               @* <!-- Logo -->
+               *@
+
+                <div class="auth-brand text-center text-lg-start">
+                    <div class="auth-logo ">
+                        <h3 class="mb-4">HRMS</h3>
+                        <h4 class="mb-4">TechnoconServices.com</h4>
+                    </div>
+                </div>
+
+                <!-- title-->
+                <h4 class="mt-5">Sign In</h4>
+                <p class="text-muted mb-4">Enter your User ID and Password to access account.</p>
+
+                <!-- form -->
+                <form asp-action="Login" id="User_Login">
+                    <div class="mb-3">
+                        <label for="UserName" class="col-sm-5 control-label">User ID</label>
+                       
+                        <input asp-for="UserName" class="form-control" />
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                      
+                        @*<input class="form-control" type="email" id="User_ID" required="" placeholder="Enter your User ID">*@
+                    </div>
+                    <div class="mb-3">
+                        @*<a href="auth-recoverpw-2.html" class="text-muted float-end"><small>Forgot your password?</small></a>*@
+                        <label for="Password" class="col-sm-5 control-label">Password</label>
+                        <div class="input-group input-group-merge">
+
+                            <input asp-for="Password" class="form-control" />
+                           
+                            <div class="input-group-text" data-password="false">
+                                <span class="password-eye"></span>
+                            </div>
+                        </div>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="row mb-2 justify-content-end"> <a class="mb-2" href='http://14.97.245.182:82/' ;>Forgot Password</a></div>
+                   
+                    <div class="row mb-2">
+                        <label for="captchaInput" class="col-sm-6 control-label">Enter CAPTCHA code:</label>
+
+                        <div class="col-sm-6 mb-2" id="divcaptcha">
+                            <span class="mb-1" id="captchaCodeElement"></span>
+
+                        </div>
+                        <div class="col-sm-4" style="margin-left:45%;">
+                            <input type="text" id="captchaInput" name="captchaInput" class="form-control border border-secondary" required pattern="[A-Za-z]{6}" title="Please enter a valid captcha code">
+                            <span class="text-danger">
+                                <span id="captchaInput-error" class="field-validation-valid" data-valmsg-for="captchaInput" data-valmsg-replace="true"></span>
+                            </span>
+
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="checkbox-signin">
+                            <label class="form-check-label" for="checkbox-signin">Remember me</label>
+                        </div>
+                    </div>
+                    <div class="text-center d-grid">
+                        <button type="button" id="SaveLogin" class="btn btn-info px-5"><i class=""></i>&nbsp; Sign In</button>
+                    </div>
+                   @* <!-- social-->
+                    *@
+                </form>
+                <!-- end form-->
+                <!-- Footer-->
+                <footer class="footer footer-alt">
+                    <p class="text-muted">Don't have an account? <a asp-controller="UserAccount" asp-action="UserRegistration" class="text-muted ms-1"><b>Sign Up</b></a></p>
+                </footer>
+
+            </div> <!-- end .card-body -->
+        </div> <!-- end .align-items-center.d-flex.h-100-->
+    </div>
+    <!-- end auth-fluid-form-box-->
+    <!-- Auth fluid right content -->
+    <div class="auth-fluid-right text-center">
+        <div class="auth-user-testimonial">
+            
+        </div> <!-- end auth-user-testimonial-->
+    </div>
+    <!-- end Auth fluid right content -->
+
+</div>
+<!-- end auth-fluid-->
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.js"></script>
+ 
+    <script>
+        var labelElement = document.getElementById('divcaptcha');
+        labelElement.addEventListener('copy', function (event) {
+            event.preventDefault();
+        });
+
+
+        //$('#ClientUniqueCode').blur(function () {
+        //    var ClientUniqueCode = $('#ClientUniqueCode').val();
+        //    var JSONdt = { "ClientUniqueCode": ClientUniqueCode };
+
+        //    $.post("/UserAccount/UserTenantValidation", JSONdt, function (response) {
+        //        // Success callback function
+
+
+        //        if (response.id == 1) {
+        //            alert("successful");
+        //            $('#SaveRegistration').show();
+        //            // Remove the existing class "form-control" from the element
+        //            $('input[name="ClientUniqueCode"]').removeClass('form-control');
+
+        //            // Add the new class "form-control is-valid" to the element
+        //            $('input[name="ClientUniqueCode"]').addClass('form-control is-valid');
+
+        //        }
+        //        else {
+        //            alert("failed");
+        //            $('input[name="ClientUniqueCode"]').addClass('form-control is-invalid');
+        //        }
+        //    }).fail(function (error) {
+        //        // Error callback function
+        //        console.log("Request failed:", error);
+        //    });
+        //});
+
+
+        $(document).ready(function () {
+            // Code to execute after the DOM has finished loading
+           
+
+            // Generate a random CAPTCHA code
+            $('#SaveLogin').click(function (e) {
+
+
+                // Prevent the form from being submitted
+                // Display an error message or take appropriate action
+
+                if (ValidationForm() != false) {
+                    if (validateCaptcha() != false) {
+                        event.preventDefault();
+                        e.preventDefault();// Prevent the form from submitting normally
+
+                        var formData = $('form').serializeArray(); // Serialize the form data
+
+
+                        var jsonData = {};
+                        $(formData).each(function (index, obj) {
+                            jsonData[obj.name] = obj.value; // Convert the serialized data to JSON
+                        });
+
+                        // Use the 'jsonData' object as needed (e.g., send it via AJAX)
+
+                        $.post("/UserAccount/UserLogin", jsonData, function (response) {
+                            
+                            // Success callback function
+                            if (response.userID > 0) {
+                                //alert("Login Successful");
+                                //if (window.location.href.indexOf('localhost:5205/') === -1) {
+                                //    window.location.href = 'http://14.97.245.182:83/?groupName=' + response.encryptedResult;
+                                //} else {
+                                //    window.location.href = 'http://14.97.245.182:83/?groupName=' + response.encryptedResult;
+                                //}
+                                window.location.href = "/TenantCompanyProfile/Dashboard"
+                            }
+                            else{
+                                alert("Login Failed");
+                                var captchaCode = generateCaptchaCode(6);
+                                $('#captchaCodeElement').text(captchaCode);
+
+                            }
+                                //var param1 = 'encodeURIComponent(response.TenantID)';
+                                //var param2 = 'encodeURIComponent(response.userID)';
+                                //var param3 = 'encodeURIComponent(response.UserName)';
+                                //alert(param1+" "param2+" "param3);
+
+                                //// Append the query parameters to the URL
+                                //url += '?param1=' + encodeURIComponent(param1) +
+                                //    '&param2=' + encodeURIComponent(param2) +
+                                //    '&param3=' + encodeURIComponent(param3);
+
+                                // Navigate to the new URL
+                               
+                                
+                              //  window.location.href = "/SuccessPage";
+                               
+                            
+                            
+                        }).fail(function (error) {
+                            // Error callback function
+                            //alert("Invalid Login");
+                            console.log("Request failed:", error);
+                        });
+
+
+                    }
+                    else {
+                        $('#captchaInput-error').removeClass('field-validation-valid');
+                        $('#captchaInput-error').addClass('field-validation-error');
+                        $('#captchaInput-error').text('Invalid Captcha. Please try again.');
+                        var captchaCode = generateCaptchaCode(6);
+                        $('#captchaCodeElement').text(captchaCode);
+                    }
+                }
+
+            });
+
+
+
+           
+            function validateCaptcha() {
+
+                if ($("#captchaInput").val().toLowerCase() === $("#captchaCodeElement").text().toLowerCase()) {
+                    
+                    return true;
+                } else {
+                    return false;
+                }
+
+
+            }
+            function ValidationForm() {
+                if (!$("#User_Login").valid()) {
+                    return false;
+                }
+            }
+            var captchaCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            var captchaCode = generateCaptchaCode(6);
+
+            // Display the CAPTCHA code on the page
+            $('#captchaCodeElement').text(captchaCode);
+
+            // Function to generate a random CAPTCHA code
+            function generateCaptchaCode(length) {
+                var captchaCode = '';
+                for (var i = 0; i < length; i++) {
+                    var randomIndex = Math.floor(Math.random() * captchaCharacters.length);
+                    captchaCode += captchaCharacters.charAt(randomIndex);
+                }
+                return captchaCode;
+            }
+        });
+
+    </script>
+    <script>
+        var EncryptionHelper = {
+            
+            decryptWithSalt: function (encryptedValue, salt) {
+                // Implement your decryption logic here
+                // Decrypt the encryptedValue using the provided salt
+                // Return the decrypted value
+
+                // Example decryption logic using CryptoJS
+                var decrypted = CryptoJS.AES.decrypt(encryptedValue, salt);
+                var decryptedValue = decrypted.toString(CryptoJS.enc.Utf8);
+                return decryptedValue;
+            }
+        };
+    </script>
+   
+
+
+
+}
